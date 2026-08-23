@@ -38,7 +38,7 @@ describe('computePoolResults', () => {
       false,
       false,
       0,
-      false,
+      'white',
       0,
       false,
       0,

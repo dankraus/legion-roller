@@ -75,7 +75,7 @@ export function computePoolResults(config: PoolConfig): PoolResults {
     config.lowProfile,
     config.suppressed,
     toCoverX(config.coverX),
-    config.dugIn,
+    config.dugIn ? 'red' : 'white',
     toCount(config.sharpshooterX),
     config.backup,
     toCount(config.armorX),
