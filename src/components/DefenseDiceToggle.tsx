@@ -8,8 +8,8 @@ interface DefenseDiceToggleProps {
 }
 
 const OPTIONS: { value: DefenseDieColor; label: string }[] = [
-  { value: 'red', label: 'Red' },
   { value: 'white', label: 'White' },
+  { value: 'red', label: 'Red' },
 ];
 
 export function DefenseDiceToggle({ value, onChange }: DefenseDiceToggleProps) {

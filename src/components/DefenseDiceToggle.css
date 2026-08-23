@@ -1,28 +1,27 @@
 .defense-dice-toggle .surge-toggle__option:first-child {
-  background: #fee2e2;
-  border: 2px solid #ef4444;
-}
 
-.defense-dice-toggle
-  .surge-toggle__option:first-child.surge-toggle__option--active {
-  background: #fecaca;
-  border-color: #b91c1c;
-  box-shadow: 0 0 0 2px #b91c1c;
-  color: #991b1b;
-  font-weight: 600;
-}
-
-.defense-dice-toggle .surge-toggle__option:last-child {
   background: #f9fafb;
   border: 2px solid #d1d5db;
 }
 
-.defense-dice-toggle
-  .surge-toggle__option:last-child.surge-toggle__option--active {
+.defense-dice-toggle .surge-toggle__option:first-child.surge-toggle__option--active {
   background: #e5e7eb;
   border-color: #6b7280;
   box-shadow: 0 0 0 2px #6b7280;
   color: #1f2937;
+  font-weight: 600;
+}
+
+.defense-dice-toggle .surge-toggle__option:last-child {
+  background: #fee2e2;
+  border: 2px solid #ef4444;
+}
+
+.defense-dice-toggle .surge-toggle__option:last-child.surge-toggle__option--active {
+  background: #fecaca;
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 2px #b91c1c;
+  color: #991b1b;
   font-weight: 600;
 }
 
