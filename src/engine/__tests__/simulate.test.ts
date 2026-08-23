@@ -9,6 +9,7 @@ import {
   rollAttackPool,
   rollDefensePoolDetailed,
   type DefenseFace,
+  type DefenseDieOutcome,
   resolveStep,
   applyRerolls,
   applyRam,
@@ -19,6 +20,7 @@ import {
   effectiveBlocksAfterPierce,
   rollOneDefenseDieOutcome,
   getRerollableDefenseIndices,
+  prioritizeRedDefenseRerollIndices,
   applyUncannyLuckRerolls,
   applyCover,
   getEffectiveCover,
@@ -251,6 +253,30 @@ describe('getRerollableDefenseIndices', () => {
     expect(getRerollableDefenseIndices(['block', 'block'], 'none', 5)).toEqual(
       []
     );
+  });
+});
+
+describe('prioritizeRedDefenseRerollIndices', () => {
+  it('puts red rerollable indices before white', () => {
+    const outcomes: DefenseDieOutcome[] = [
+      { color: 'white', face: 'blank' },
+      { color: 'red', face: 'blank' },
+      { color: 'white', face: 'blank' },
+      { color: 'red', face: 'surge' },
+    ];
+    expect(
+      prioritizeRedDefenseRerollIndices(outcomes, [0, 1, 2, 3])
+    ).toEqual([1, 3, 0, 2]);
+  });
+
+  it('leaves a same-color list in original order', () => {
+    const outcomes: DefenseDieOutcome[] = [
+      { color: 'red', face: 'blank' },
+      { color: 'red', face: 'surge' },
+    ];
+    expect(prioritizeRedDefenseRerollIndices(outcomes, [0, 1])).toEqual([
+      0, 1,
+    ]);
   });
 });
 

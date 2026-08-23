@@ -217,6 +217,22 @@ export function getRerollableDefenseIndices(
   return [...blankIndices, ...excessSurgeIndices];
 }
 
+/** Among rerollable defense dice, spend Uncanny Luck on red before white. */
+export function prioritizeRedDefenseRerollIndices(
+  outcomes: DefenseDieOutcome[],
+  rerollableIndices: number[]
+): number[] {
+  const redIndices: number[] = [];
+  const whiteIndices: number[] = [];
+  for (const index of rerollableIndices) {
+    const outcome = outcomes[index];
+    if (outcome === undefined) continue;
+    if (outcome.color === 'red') redIndices.push(index);
+    else whiteIndices.push(index);
+  }
+  return [...redIndices, ...whiteIndices];
+}
+
 /** Reroll up to X defense dice that would not become blocks (Uncanny Luck X). */
 export function applyUncannyLuckRerolls(
   faces: DefenseFace[],
@@ -253,10 +269,9 @@ function applyUncannyLuckRerollsToOutcomes(
   const faces = outcomes.map((outcome) => outcome.face);
   const normalizedUncannyLuckX = Math.max(0, Math.floor(uncannyLuckX));
   if (normalizedUncannyLuckX <= 0) return;
-  const rerollableIndices = getRerollableDefenseIndices(
-    faces,
-    surge,
-    defenseSurgeTokens
+  const rerollableIndices = prioritizeRedDefenseRerollIndices(
+    outcomes,
+    getRerollableDefenseIndices(faces, surge, defenseSurgeTokens)
   );
   const numToReroll = Math.min(
     normalizedUncannyLuckX,
