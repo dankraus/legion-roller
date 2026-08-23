@@ -1100,7 +1100,7 @@ describe('cover die color in wounds simulation', () => {
       runs,
       rngRed
     );
-    expect(woundsRed.expectedWounds).toBeLessThanOrEqual(
+    expect(woundsRed.expectedWounds).toBeLessThan(
       woundsWhite.expectedWounds
     );
   });
