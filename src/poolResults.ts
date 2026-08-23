@@ -13,6 +13,7 @@ export const DEFAULT_POOL_CONFIG: PoolConfig = {
   sharpshooterX: '',
   pierceX: '',
   impactX: '',
+  downgradeDefenseX: '',
   pointCost: '',
   defenseDieColor: 'red',
   defenseSurge: 'none',
@@ -83,7 +84,8 @@ export function computePoolResults(config: PoolConfig): PoolResults {
     config.impervious,
     toCount(config.suppressionTokens),
     toCount(config.dangerSenseX),
-    toCount(config.uncannyLuckX)
+    toCount(config.uncannyLuckX),
+    toCount(config.downgradeDefenseX)
   );
 
   return { results, woundsResults };

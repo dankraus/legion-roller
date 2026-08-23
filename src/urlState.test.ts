@@ -68,6 +68,19 @@ describe('urlState', () => {
       expect(fragment).toContain('uLuck=3');
       expect(parseFragment('#' + fragment).uLuck).toBe(3);
     });
+
+    it('parses downDef and roundtrips in buildFragment', () => {
+      const parsed = parseFragment('#downDef=2');
+      expect(parsed.downDef).toBe(2);
+      const fragment = buildFragment({ ...DEFAULT_URL_STATE, downDef: 2 });
+      expect(fragment).toContain('downDef=2');
+      expect(parseFragment('#' + fragment).downDef).toBe(2);
+    });
+
+    it('omits downDef from the fragment when it is 0', () => {
+      const fragment = buildFragment({ ...DEFAULT_URL_STATE, downDef: 0 });
+      expect(fragment).not.toContain('downDef');
+    });
   });
 
   describe('buildFragment', () => {

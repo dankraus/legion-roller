@@ -165,7 +165,8 @@ export function calculateWounds(
   impervious?: boolean,
   suppressionTokens?: number,
   dangerSenseX?: number,
-  uncannyLuckX?: number
+  uncannyLuckX?: number,
+  downgradeDefenseX?: number
 ): WoundsResults {
   const normalizedCoverX = Math.min(2, Math.max(0, Math.floor(coverX ?? 0)));
   const normalizedArmorX = Math.max(0, Math.floor(armorX ?? 0));
@@ -176,6 +177,10 @@ export function calculateWounds(
   );
   const normalizedDangerSenseX = Math.max(0, Math.floor(dangerSenseX ?? 0));
   const normalizedUncannyLuckX = Math.max(0, Math.floor(uncannyLuckX ?? 0));
+  const normalizedDowngradeDefenseX = Math.max(
+    0,
+    Math.floor(downgradeDefenseX ?? 0)
+  );
   const rng = createSeededRng(SEED);
   return simulateWoundsFromAttackResults(
     attackResults,
@@ -199,6 +204,7 @@ export function calculateWounds(
     normalizedSuppressionTokens,
     normalizedDangerSenseX,
     normalizedUncannyLuckX,
+    normalizedDowngradeDefenseX,
     DEFAULT_RUNS,
     rng
   );

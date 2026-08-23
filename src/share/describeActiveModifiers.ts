@@ -21,6 +21,7 @@ export function describeActiveModifiers(config: PoolConfig): string[] {
   labels.push(countLabel('Sharpshooter', config.sharpshooterX));
   labels.push(countLabel('Impact', config.impactX));
   labels.push(countLabel('Pierce', config.pierceX));
+  labels.push(countLabel('Downgrade Defense Dice X', config.downgradeDefenseX));
 
   if (config.defenseSurge === 'block') labels.push('Def surge→Block');
   if (config.cover === 'light') labels.push('Cover Light');
