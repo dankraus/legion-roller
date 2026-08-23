@@ -41,4 +41,19 @@ describe('describeActiveModifiers', () => {
       })
     ).not.toContain('White defense');
   });
+
+  it('lists Cover dice Red when cover die color is red', () => {
+    expect(
+      describeActiveModifiers({
+        ...DEFAULT_POOL_CONFIG,
+        coverDieColor: 'red',
+      })
+    ).toContain('Cover dice Red');
+  });
+
+  it('omits Cover dice Red when white', () => {
+    expect(describeActiveModifiers(DEFAULT_POOL_CONFIG)).not.toContain(
+      'Cover dice Red'
+    );
+  });
 });

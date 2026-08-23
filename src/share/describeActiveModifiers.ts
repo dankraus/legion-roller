@@ -26,6 +26,7 @@ export function describeActiveModifiers(config: PoolConfig): string[] {
   if (config.defenseSurge === 'block') labels.push('Def surge→Block');
   if (config.cover === 'light') labels.push('Cover Light');
   if (config.cover === 'heavy') labels.push('Cover Heavy');
+  if (config.coverDieColor === 'red') labels.push('Cover dice Red');
   if (config.lowProfile) labels.push('Low Profile');
   if (config.suppressed) labels.push('Suppressed');
   if (config.impervious) labels.push('Impervious');

@@ -76,6 +76,10 @@ export function formatPoolSnapshot(config: PoolConfig): PoolSnapshotSection[] {
       value: config.defenseSurge === 'block' ? 'Block' : 'None',
     },
     { label: 'Cover', value: coverLabel(config.cover) },
+    {
+      label: 'Cover dice',
+      value: config.coverDieColor === 'red' ? 'Red' : 'White',
+    },
   ];
   addBooleanLine(defenseLines, 'Low Profile', config.lowProfile);
   addBooleanLine(defenseLines, 'Suppressed', config.suppressed);
