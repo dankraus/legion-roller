@@ -49,7 +49,7 @@ describe('applyConfigToEditor', () => {
       setShieldTokens: vi.fn(),
       setOutmaneuver: vi.fn(),
       setCover: vi.fn(),
-      setDugIn: vi.fn(),
+      setCoverDieColor: vi.fn(),
       setLowProfile: vi.fn(),
       setSuppressed: vi.fn(),
       setCoverX: vi.fn(),
@@ -69,6 +69,7 @@ describe('applyConfigToEditor', () => {
     expect(setters.setSurge).toHaveBeenCalledWith('crit');
     expect(setters.setAimTokens).toHaveBeenCalledWith('1');
     expect(setters.setCover).toHaveBeenCalledWith('light');
+    expect(setters.setCoverDieColor).toHaveBeenCalledWith('white');
     expect(setters.setBackup).toHaveBeenCalledWith(true);
   });
 });
@@ -84,5 +85,6 @@ describe('configToUrlPoolState', () => {
     expect(state.r).toBe(3);
     expect(state.aim).toBe(2);
     expect(state.coverX).toBe(2);
+    expect(state.cColor).toBe('white');
   });
 });

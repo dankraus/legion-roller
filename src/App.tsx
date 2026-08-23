@@ -64,7 +64,7 @@ function poolStateToConfig(pool: UrlPoolState): PoolConfig {
     shieldTokens: numToInput(pool.shield),
     outmaneuver: pool.out,
     cover: pool.cover,
-    dugIn: pool.dugIn,
+    coverDieColor: pool.cColor,
     lowProfile: pool.lowProf,
     suppressed: pool.sup,
     coverX: numToInput(pool.coverX),
@@ -199,7 +199,7 @@ function App() {
     () => initialFromUrl?.cover ?? 'none'
   );
   const [dugIn, setDugIn] = useState<boolean>(
-    () => initialFromUrl?.dugIn ?? false
+    () => (initialFromUrl?.cColor ?? 'white') === 'red'
   );
   const [lowProfile, setLowProfile] = useState<boolean>(
     () => initialFromUrl?.lowProf ?? false
@@ -260,7 +260,7 @@ function App() {
   const [labelA, setLabelA] = useState<string>(() => initialFromUrl?.la ?? 'A');
   const [labelB, setLabelB] = useState<string>(() => initialFromUrl?.lb ?? 'B');
 
-  const simulationInputs = useMemo(
+  const simulationInputs = useMemo<PoolConfig>(
     () => ({
       pool,
       surge,
@@ -282,7 +282,7 @@ function App() {
       shieldTokens,
       outmaneuver,
       cover,
-      dugIn,
+      coverDieColor: dugIn ? 'red' : 'white',
       lowProfile,
       suppressed,
       coverX,
@@ -356,7 +356,7 @@ function App() {
       shieldTokens: debouncedInputs.shieldTokens,
       outmaneuver: debouncedInputs.outmaneuver,
       cover: debouncedInputs.cover,
-      dugIn: debouncedInputs.dugIn,
+      coverDieColor: debouncedInputs.coverDieColor,
       lowProfile: debouncedInputs.lowProfile,
       suppressed: debouncedInputs.suppressed,
       coverX: debouncedInputs.coverX,
@@ -451,7 +451,7 @@ function App() {
       setShieldTokens,
       setOutmaneuver,
       setCover,
-      setDugIn,
+      setCoverDieColor: (value: DefenseDieColor) => setDugIn(value === 'red'),
       setLowProfile,
       setSuppressed,
       setCoverX,

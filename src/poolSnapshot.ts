@@ -77,7 +77,6 @@ export function formatPoolSnapshot(config: PoolConfig): PoolSnapshotSection[] {
     },
     { label: 'Cover', value: coverLabel(config.cover) },
   ];
-  addBooleanLine(defenseLines, 'Dug In', config.dugIn);
   addBooleanLine(defenseLines, 'Low Profile', config.lowProfile);
   addBooleanLine(defenseLines, 'Suppressed', config.suppressed);
   addBooleanLine(defenseLines, 'Backup', config.backup);

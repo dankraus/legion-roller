@@ -65,9 +65,9 @@ describe('formatPoolSnapshot', () => {
   it('includes optional defense modifier when non-default', () => {
     const sections = formatPoolSnapshot({
       ...DEFAULT_POOL_CONFIG,
-      dugIn: true,
+      lowProfile: true,
     });
-    expect(lineValue(sections, 'Defense', 'Dug In')).toBe('On');
+    expect(lineValue(sections, 'Defense', 'Low Profile')).toBe('On');
   });
 
   it('includes Cost section when point cost is set', () => {

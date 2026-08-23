@@ -47,6 +47,17 @@ describe('urlState', () => {
       expect(parseFragment('#dColor=white').dColor).toBe('white');
     });
 
+    it('validates cColor enum and falls back to white for invalid', () => {
+      expect(parseFragment('#cColor=invalid').cColor).toBe('white');
+      expect(parseFragment('#cColor=red').cColor).toBe('red');
+      expect(parseFragment('#cColor=white').cColor).toBe('white');
+    });
+
+    it('ignores legacy dug=1 and does not set red cover dice', () => {
+      expect(parseFragment('#dug=1').cColor).toBe('white');
+      expect(parseFragment('#dugIn=1').cColor).toBe('white');
+    });
+
     it('parses boolean out=1 as true and out=0 as false', () => {
       expect(parseFragment('#out=1').out).toBe(true);
       expect(parseFragment('#out=0').out).toBe(false);
@@ -86,6 +97,18 @@ describe('urlState', () => {
   describe('buildFragment', () => {
     it('returns empty string for default state', () => {
       expect(buildFragment(DEFAULT_URL_STATE)).toBe('');
+    });
+
+    it('omits cColor at default white and roundtrips red', () => {
+      expect(
+        buildFragment({ ...DEFAULT_URL_STATE, cColor: 'white' })
+      ).not.toContain('cColor');
+      const fragment = buildFragment({
+        ...DEFAULT_URL_STATE,
+        cColor: 'red',
+      });
+      expect(fragment).toContain('cColor=red');
+      expect(parseFragment('#' + fragment).cColor).toBe('red');
     });
 
     it('roundtrips non-default state', () => {
