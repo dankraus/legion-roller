@@ -60,14 +60,16 @@ describe('formatPoolSnapshot', () => {
     expect(lineValue(sections, 'Defense', 'Defense die')).toBe('Red');
     expect(lineValue(sections, 'Defense', 'Defense surge')).toBe('None');
     expect(lineValue(sections, 'Defense', 'Cover')).toBe('None');
+    expect(lineValue(sections, 'Defense', 'Cover dice')).toBe('White');
   });
 
-  it('includes optional defense modifier when non-default', () => {
+  it('shows Cover dice Red when coverDieColor is red and never Dug In', () => {
     const sections = formatPoolSnapshot({
       ...DEFAULT_POOL_CONFIG,
-      dugIn: true,
+      coverDieColor: 'red',
     });
-    expect(lineValue(sections, 'Defense', 'Dug In')).toBe('On');
+    expect(lineValue(sections, 'Defense', 'Cover dice')).toBe('Red');
+    expect(lineValue(sections, 'Defense', 'Dug In')).toBeUndefined();
   });
 
   it('includes Cost section when point cost is set', () => {

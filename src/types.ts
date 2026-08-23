@@ -35,7 +35,7 @@ export type DefenseDieColor = 'red' | 'white';
 
 export type DefenseSurgeConversion = 'none' | 'block';
 
-/** Cover rolls white defense dice before main defense unless Dug In is on (then red); only hits can be cancelled (crits bypass). */
+/** Cover rolls white or red defense dice from the Cover dice selector before main defense; only hits can be cancelled (crits bypass). */
 export type CoverLevel = 'none' | 'light' | 'heavy';
 
 export interface DefensePool {
@@ -81,7 +81,7 @@ export interface PoolConfig {
   shieldTokens: string;
   outmaneuver: boolean;
   cover: CoverLevel;
-  dugIn: boolean;
+  coverDieColor: DefenseDieColor;
   lowProfile: boolean;
   suppressed: boolean;
   coverX: string;

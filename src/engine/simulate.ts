@@ -727,7 +727,7 @@ export function simulateWounds(
   lowProfile: boolean,
   suppressed: boolean = false,
   coverX: number = 0,
-  dugIn: boolean = false,
+  coverDieColor: DefenseDieColor = 'white',
   sharpshooterX: number = 0,
   backup: boolean = false,
   armorX: number = 0,
@@ -752,7 +752,6 @@ export function simulateWounds(
     0,
     Math.floor(downgradeDefenseX)
   );
-  const coverDieColor: DefenseDieColor = dugIn ? 'red' : 'white';
   const roundCapacities = getRerollRounds(aimTokens, observeTokens, preciseX);
 
   const woundsHistogram: Record<number, number> = {};
@@ -874,7 +873,7 @@ export function simulateWoundsFromAttackResults(
   lowProfile: boolean,
   suppressed: boolean = false,
   coverX: number = 0,
-  dugIn: boolean = false,
+  coverDieColor: DefenseDieColor = 'white',
   sharpshooterX: number = 0,
   backup: boolean = false,
   armorX: number = 0,
@@ -899,7 +898,6 @@ export function simulateWoundsFromAttackResults(
     0,
     Math.floor(downgradeDefenseX)
   );
-  const coverDieColor: DefenseDieColor = dugIn ? 'red' : 'white';
   const normalizedSuppressionTokens = Math.max(
     0,
     Math.floor(suppressionTokens)

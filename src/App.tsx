@@ -20,6 +20,7 @@ import { AttackSurgeToggle } from './components/AttackSurgeToggle';
 import { DefenseSurgeToggle } from './components/DefenseSurgeToggle';
 import { DefenseDiceToggle } from './components/DefenseDiceToggle';
 import { CoverToggle } from './components/CoverToggle';
+import { CoverDiceToggle } from './components/CoverDiceToggle';
 import { CheckboxToggle } from './components/CheckboxToggle';
 import { NumberInputWithControls } from './components/NumberInputWithControls';
 import { StatsSummary } from './components/StatsSummary';
@@ -64,7 +65,7 @@ function poolStateToConfig(pool: UrlPoolState): PoolConfig {
     shieldTokens: numToInput(pool.shield),
     outmaneuver: pool.out,
     cover: pool.cover,
-    dugIn: pool.dugIn,
+    coverDieColor: pool.cColor,
     lowProfile: pool.lowProf,
     suppressed: pool.sup,
     coverX: numToInput(pool.coverX),
@@ -198,8 +199,8 @@ function App() {
   const [cover, setCover] = useState<CoverLevel>(
     () => initialFromUrl?.cover ?? 'none'
   );
-  const [dugIn, setDugIn] = useState<boolean>(
-    () => initialFromUrl?.dugIn ?? false
+  const [coverDieColor, setCoverDieColor] = useState<DefenseDieColor>(
+    () => initialFromUrl?.cColor ?? 'white'
   );
   const [lowProfile, setLowProfile] = useState<boolean>(
     () => initialFromUrl?.lowProf ?? false
@@ -260,7 +261,7 @@ function App() {
   const [labelA, setLabelA] = useState<string>(() => initialFromUrl?.la ?? 'A');
   const [labelB, setLabelB] = useState<string>(() => initialFromUrl?.lb ?? 'B');
 
-  const simulationInputs = useMemo(
+  const simulationInputs = useMemo<PoolConfig>(
     () => ({
       pool,
       surge,
@@ -282,7 +283,7 @@ function App() {
       shieldTokens,
       outmaneuver,
       cover,
-      dugIn,
+      coverDieColor,
       lowProfile,
       suppressed,
       coverX,
@@ -314,7 +315,7 @@ function App() {
       shieldTokens,
       outmaneuver,
       cover,
-      dugIn,
+      coverDieColor,
       lowProfile,
       suppressed,
       coverX,
@@ -356,7 +357,7 @@ function App() {
       shieldTokens: debouncedInputs.shieldTokens,
       outmaneuver: debouncedInputs.outmaneuver,
       cover: debouncedInputs.cover,
-      dugIn: debouncedInputs.dugIn,
+      coverDieColor: debouncedInputs.coverDieColor,
       lowProfile: debouncedInputs.lowProfile,
       suppressed: debouncedInputs.suppressed,
       coverX: debouncedInputs.coverX,
@@ -451,7 +452,7 @@ function App() {
       setShieldTokens,
       setOutmaneuver,
       setCover,
-      setDugIn,
+      setCoverDieColor,
       setLowProfile,
       setSuppressed,
       setCoverX,
@@ -517,7 +518,7 @@ function App() {
     setShieldTokens('');
     setOutmaneuver(false);
     setCover('none');
-    setDugIn(false);
+    setCoverDieColor('white');
     setLowProfile(false);
     setSuppressed(false);
     setCoverX('');
@@ -750,12 +751,9 @@ function App() {
                 onChange={setDefenseSurge}
               />
               <CoverToggle value={cover} onChange={setCover} />
-              <CheckboxToggle
-                id="dug-in"
-                label="Dug In"
-                title="When in cover, roll red defense dice for the cover roll instead of white."
-                checked={dugIn}
-                onChange={setDugIn}
+              <CoverDiceToggle
+                value={coverDieColor}
+                onChange={setCoverDieColor}
               />
 
               <h3 className="app__section-heading">Keywords</h3>
@@ -979,8 +977,9 @@ function App() {
         </div>
         <p className="app__footer-tagline">
           Legion Roller is a dice simulator and probability calculator for Star
-          Wars Legion by Atomic Mass Games. Results are calculated using Monte Carlo 
-          simulation with 10,000 runs to accurately model dice roll distributions.
+          Wars Legion by Atomic Mass Games. Results are calculated using Monte
+          Carlo simulation with 10,000 runs to accurately model dice roll
+          distributions.
         </p>
         <p className="app__footer-disclaimer">
           This site is not affiliated with, endorsed by, or connected with

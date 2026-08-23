@@ -26,7 +26,7 @@ export interface UrlPoolState {
   shield: number;
   out: boolean;
   cover: CoverOption;
-  dugIn: boolean;
+  cColor: DefenseColorOption;
   lowProf: boolean;
   sup: boolean;
   coverX: number;
@@ -68,7 +68,7 @@ export const DEFAULT_URL_STATE_POOL: UrlPoolState = {
   shield: 0,
   out: false,
   cover: 'none',
-  dugIn: false,
+  cColor: 'white',
   lowProf: false,
   sup: false,
   coverX: 0,
@@ -115,13 +115,8 @@ function parseBoolean(value: string | null): boolean {
   return lower === '1' || lower === 'true';
 }
 
-// The fragment key for dugIn is 'dug'; everything else uses its own name.
-function poolKey(key: keyof UrlPoolState): string {
-  return key === 'dugIn' ? 'dug' : key;
-}
-
 function parsePool(params: URLSearchParams, prefix: string): UrlPoolState {
-  const get = (key: keyof UrlPoolState) => params.get(prefix + poolKey(key));
+  const get = (key: keyof UrlPoolState) => params.get(prefix + key);
   return {
     r: parseNumber(get('r'), DEFAULT_URL_STATE_POOL.r),
     b: parseNumber(get('b'), DEFAULT_URL_STATE_POOL.b),
@@ -153,7 +148,11 @@ function parsePool(params: URLSearchParams, prefix: string): UrlPoolState {
     shield: parseNumber(get('shield'), DEFAULT_URL_STATE_POOL.shield),
     out: parseBoolean(get('out')),
     cover: parseEnum(get('cover'), COVER_VALUES, DEFAULT_URL_STATE_POOL.cover),
-    dugIn: parseBoolean(get('dugIn')),
+    cColor: parseEnum(
+      get('cColor'),
+      D_COLOR_VALUES,
+      DEFAULT_URL_STATE_POOL.cColor
+    ),
     lowProf: parseBoolean(get('lowProf')),
     sup: parseBoolean(get('sup')),
     coverX: Math.min(
@@ -201,9 +200,7 @@ function poolEntries(pool: UrlPoolState, prefix: string): string[] {
     if (!isDefaultPoolValue(key, value)) {
       const serialized =
         typeof value === 'boolean' ? (value ? '1' : '0') : String(value);
-      entries.push(
-        `${prefix}${poolKey(key)}=${encodeURIComponent(serialized)}`
-      );
+      entries.push(`${prefix}${key}=${encodeURIComponent(serialized)}`);
     }
   }
   return entries;

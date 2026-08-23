@@ -31,7 +31,7 @@ export type PoolEditorSetters = {
   setShieldTokens: (value: string) => void;
   setOutmaneuver: (value: boolean) => void;
   setCover: (value: CoverLevel) => void;
-  setDugIn: (value: boolean) => void;
+  setCoverDieColor: (value: DefenseDieColor) => void;
   setLowProfile: (value: boolean) => void;
   setSuppressed: (value: boolean) => void;
   setCoverX: (value: string) => void;
@@ -71,7 +71,7 @@ export function applyConfigToEditor(
   setters.setShieldTokens(config.shieldTokens);
   setters.setOutmaneuver(config.outmaneuver);
   setters.setCover(config.cover);
-  setters.setDugIn(config.dugIn);
+  setters.setCoverDieColor(config.coverDieColor);
   setters.setLowProfile(config.lowProfile);
   setters.setSuppressed(config.suppressed);
   setters.setCoverX(config.coverX);
@@ -112,7 +112,7 @@ export function configToUrlPoolState(config: PoolConfig): UrlPoolState {
     shield: toCount(config.shieldTokens),
     out: config.outmaneuver,
     cover: config.cover,
-    dugIn: config.dugIn,
+    cColor: config.coverDieColor,
     lowProf: config.lowProfile,
     sup: config.suppressed,
     coverX: Math.min(2, toCount(config.coverX)),
