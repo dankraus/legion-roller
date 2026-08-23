@@ -264,9 +264,9 @@ describe('prioritizeRedDefenseRerollIndices', () => {
       { color: 'white', face: 'blank' },
       { color: 'red', face: 'surge' },
     ];
-    expect(
-      prioritizeRedDefenseRerollIndices(outcomes, [0, 1, 2, 3])
-    ).toEqual([1, 3, 0, 2]);
+    expect(prioritizeRedDefenseRerollIndices(outcomes, [0, 1, 2, 3])).toEqual([
+      1, 3, 0, 2,
+    ]);
   });
 
   it('leaves a same-color list in original order', () => {
@@ -274,9 +274,7 @@ describe('prioritizeRedDefenseRerollIndices', () => {
       { color: 'red', face: 'blank' },
       { color: 'red', face: 'surge' },
     ];
-    expect(prioritizeRedDefenseRerollIndices(outcomes, [0, 1])).toEqual([
-      0, 1,
-    ]);
+    expect(prioritizeRedDefenseRerollIndices(outcomes, [0, 1])).toEqual([0, 1]);
   });
 });
 
@@ -2132,9 +2130,8 @@ describe('Downgrade Defense X in wounds simulation', () => {
       runs,
       createSeededRng(42)
     );
-    expect(woundsDowngrade2.expectedWounds).toBeGreaterThanOrEqual(
-      woundsNone.expectedWounds
-    );
+    expect(woundsNone.expectedWounds).toBeCloseTo(2, 1);
+    expect(woundsDowngrade2.expectedWounds).toBeCloseTo(8 / 3, 1);
   });
 
   it('white defender: Downgrade 2 matches Downgrade 0', () => {
