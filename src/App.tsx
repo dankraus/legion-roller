@@ -719,8 +719,8 @@ function App() {
                 guideAnchor="pierce-x"
               />
               <NumberInputWithControls
-                id="downgrade-defense-x"
-                label="Downgrade Defense"
+                id="downgrade-defense-dice-x"
+                label="Downgrade Defense Dice X"
                 value={downgradeDefenseX}
                 onChange={setDowngradeDefenseX}
                 min={0}

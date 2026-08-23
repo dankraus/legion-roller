@@ -45,14 +45,14 @@ describe('formatPoolSnapshot', () => {
     expect(lineValue(sections, 'Attack keywords', 'Critical')).toBe('1');
   });
 
-  it('includes Downgrade Defense in Attack keywords when set', () => {
+  it('includes Downgrade Defense Dice X in Attack keywords when set', () => {
     const sections = formatPoolSnapshot({
       ...DEFAULT_POOL_CONFIG,
       downgradeDefenseX: '2',
     });
-    expect(lineValue(sections, 'Attack keywords', 'Downgrade Defense')).toBe(
-      '2'
-    );
+    expect(
+      lineValue(sections, 'Attack keywords', 'Downgrade Defense Dice X')
+    ).toBe('2');
   });
 
   it('always includes structural defense fields', () => {
