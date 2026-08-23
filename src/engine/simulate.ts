@@ -737,6 +737,7 @@ export function simulateWounds(
   suppressionTokens: number = 0,
   dangerSenseX: number = 0,
   uncannyLuckX: number = 0,
+  downgradeDefenseX: number = 0,
   runs: number,
   rng: () => number
 ): WoundsResults {
@@ -747,6 +748,10 @@ export function simulateWounds(
   const normalizedPierceX = Math.max(0, Math.floor(pierceX));
   const normalizedCoverX = Math.min(2, Math.max(0, Math.floor(coverX)));
   const normalizedUncannyLuckX = Math.max(0, Math.floor(uncannyLuckX));
+  const normalizedDowngradeDefenseX = Math.max(
+    0,
+    Math.floor(downgradeDefenseX)
+  );
   const coverDieColor: DefenseDieColor = dugIn ? 'red' : 'white';
   const roundCapacities = getRerollRounds(aimTokens, observeTokens, preciseX);
 
@@ -806,23 +811,24 @@ export function simulateWounds(
       normalizedDangerSenseX
     );
     const totalDefenseDice = defenseDice + dangerSenseExtra;
-    const faces: DefenseFace[] = [];
-    for (let dieIndex = 0; dieIndex < totalDefenseDice; dieIndex++) {
-      faces.push(rollOneDefenseDieOutcome(defenseDieColor, rng));
-    }
-    applyUncannyLuckRerolls(
-      faces,
+    const splitPool = splitDowngradedDefensePool(
+      defenseDieColor,
+      totalDefenseDice,
+      normalizedDowngradeDefenseX
+    );
+    const defenseOutcomes = rollDefensePoolDetailed(splitPool, rng);
+    applyUncannyLuckRerollsToOutcomes(
+      defenseOutcomes,
       normalizedUncannyLuckX,
       defenseSurge,
       normalizedDefenseSurgeTokens,
-      defenseDieColor,
       rng
     );
     let blockCount = 0;
     let surgeCount = 0;
-    for (const face of faces) {
-      if (face === 'block') blockCount++;
-      else if (face === 'surge') surgeCount++;
+    for (const outcome of defenseOutcomes) {
+      if (outcome.face === 'block') blockCount++;
+      else if (outcome.face === 'surge') surgeCount++;
     }
     const blocks = resolveDefenseRoll(
       blockCount,
@@ -878,6 +884,7 @@ export function simulateWoundsFromAttackResults(
   suppressionTokens: number = 0,
   dangerSenseX: number = 0,
   uncannyLuckX: number = 0,
+  downgradeDefenseX: number = 0,
   runs: number,
   rng: () => number
 ): WoundsResults {
@@ -888,6 +895,10 @@ export function simulateWoundsFromAttackResults(
   const normalizedPierceX = Math.max(0, Math.floor(pierceX));
   const normalizedCoverX = Math.min(2, Math.max(0, Math.floor(coverX)));
   const normalizedUncannyLuckX = Math.max(0, Math.floor(uncannyLuckX));
+  const normalizedDowngradeDefenseX = Math.max(
+    0,
+    Math.floor(downgradeDefenseX)
+  );
   const coverDieColor: DefenseDieColor = dugIn ? 'red' : 'white';
   const normalizedSuppressionTokens = Math.max(
     0,
@@ -955,23 +966,24 @@ export function simulateWoundsFromAttackResults(
       ? Math.max(0, hitsAfterShields + critsAfterShields - normalizedDodge)
       : critsAfterShields + Math.max(0, hitsAfterShields - normalizedDodge);
     const totalDefenseDice = defenseDice + dangerSenseExtra;
-    const faces: DefenseFace[] = [];
-    for (let dieIndex = 0; dieIndex < totalDefenseDice; dieIndex++) {
-      faces.push(rollOneDefenseDieOutcome(defenseDieColor, rng));
-    }
-    applyUncannyLuckRerolls(
-      faces,
+    const splitPool = splitDowngradedDefensePool(
+      defenseDieColor,
+      totalDefenseDice,
+      normalizedDowngradeDefenseX
+    );
+    const defenseOutcomes = rollDefensePoolDetailed(splitPool, rng);
+    applyUncannyLuckRerollsToOutcomes(
+      defenseOutcomes,
       normalizedUncannyLuckX,
       defenseSurge,
       normalizedDefenseSurgeTokens,
-      defenseDieColor,
       rng
     );
     let blockCount = 0;
     let surgeCount = 0;
-    for (const face of faces) {
-      if (face === 'block') blockCount++;
-      else if (face === 'surge') surgeCount++;
+    for (const outcome of defenseOutcomes) {
+      if (outcome.face === 'block') blockCount++;
+      else if (outcome.face === 'surge') surgeCount++;
     }
     const blocks = resolveDefenseRoll(
       blockCount,
