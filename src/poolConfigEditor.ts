@@ -22,6 +22,7 @@ export type PoolEditorSetters = {
   setSharpshooterX: (value: string) => void;
   setPierceX: (value: string) => void;
   setImpactX: (value: string) => void;
+  setDowngradeDefenseX: (value: string) => void;
   setPointCost: (value: string) => void;
   setDefenseDieColor: (value: DefenseDieColor) => void;
   setDefenseSurge: (value: DefenseSurgeConversion) => void;
@@ -61,6 +62,7 @@ export function applyConfigToEditor(
   setters.setSharpshooterX(config.sharpshooterX);
   setters.setPierceX(config.pierceX);
   setters.setImpactX(config.impactX);
+  setters.setDowngradeDefenseX(config.downgradeDefenseX);
   setters.setPointCost(config.pointCost);
   setters.setDefenseDieColor(config.defenseDieColor);
   setters.setDefenseSurge(config.defenseSurge);
@@ -101,6 +103,7 @@ export function configToUrlPoolState(config: PoolConfig): UrlPoolState {
     sharp: toCount(config.sharpshooterX),
     pierce: toCount(config.pierceX),
     impact: toCount(config.impactX),
+    downDef: toCount(config.downgradeDefenseX),
     cost: config.pointCost,
     dColor: config.defenseDieColor,
     dSurge: config.defenseSurge,

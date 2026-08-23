@@ -57,6 +57,7 @@ export function formatPoolSnapshot(config: PoolConfig): PoolSnapshotSection[] {
   addCountLine(keywordLines, 'Sharpshooter', config.sharpshooterX);
   addCountLine(keywordLines, 'Impact', config.impactX);
   addCountLine(keywordLines, 'Pierce', config.pierceX);
+  addCountLine(keywordLines, 'Downgrade Defense', config.downgradeDefenseX);
   if (keywordLines.length > 0) {
     sections.push({ title: 'Attack keywords', lines: keywordLines });
   }

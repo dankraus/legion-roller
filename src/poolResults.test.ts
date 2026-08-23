@@ -11,6 +11,7 @@ describe('computePoolResults', () => {
       aimTokens: '2',
       criticalX: '1',
       pierceX: '1',
+      downgradeDefenseX: '2',
       cover: 'light' as const,
       pointCost: '47',
     };
@@ -46,7 +47,8 @@ describe('computePoolResults', () => {
       false,
       0,
       0,
-      0
+      0,
+      2
     );
 
     const { results, woundsResults } = computePoolResults(config);

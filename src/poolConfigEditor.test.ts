@@ -40,6 +40,7 @@ describe('applyConfigToEditor', () => {
       setSharpshooterX: vi.fn(),
       setPierceX: vi.fn(),
       setImpactX: vi.fn(),
+      setDowngradeDefenseX: vi.fn(),
       setPointCost: vi.fn(),
       setDefenseDieColor: vi.fn(),
       setDefenseSurge: vi.fn(),

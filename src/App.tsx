@@ -55,6 +55,7 @@ function poolStateToConfig(pool: UrlPoolState): PoolConfig {
     sharpshooterX: numToInput(pool.sharp),
     pierceX: numToInput(pool.pierce),
     impactX: numToInput(pool.impact),
+    downgradeDefenseX: numToInput(pool.downDef),
     pointCost: pool.cost,
     defenseDieColor: pool.dColor,
     defenseSurge: pool.dSurge,
@@ -152,6 +153,13 @@ function App() {
       ? initialFromUrl.impact === 0
         ? ''
         : String(initialFromUrl.impact)
+      : ''
+  );
+  const [downgradeDefenseX, setDowngradeDefenseX] = useState<string>(() =>
+    initialFromUrl
+      ? initialFromUrl.downDef === 0
+        ? ''
+        : String(initialFromUrl.downDef)
       : ''
   );
   const [pointCost, setPointCost] = useState<string>(
@@ -265,6 +273,7 @@ function App() {
       sharpshooterX,
       pierceX,
       impactX,
+      downgradeDefenseX,
       pointCost,
       defenseDieColor,
       defenseSurge,
@@ -296,6 +305,7 @@ function App() {
       sharpshooterX,
       pierceX,
       impactX,
+      downgradeDefenseX,
       pointCost,
       defenseDieColor,
       defenseSurge,
@@ -337,6 +347,7 @@ function App() {
       sharpshooterX: debouncedInputs.sharpshooterX,
       pierceX: debouncedInputs.pierceX,
       impactX: debouncedInputs.impactX,
+      downgradeDefenseX: debouncedInputs.downgradeDefenseX,
       pointCost: debouncedInputs.pointCost,
       defenseDieColor: debouncedInputs.defenseDieColor,
       defenseSurge: debouncedInputs.defenseSurge,
@@ -431,6 +442,7 @@ function App() {
       setSharpshooterX,
       setPierceX,
       setImpactX,
+      setDowngradeDefenseX,
       setPointCost,
       setDefenseDieColor,
       setDefenseSurge,
@@ -496,6 +508,7 @@ function App() {
     setSharpshooterX('');
     setPierceX('');
     setImpactX('');
+    setDowngradeDefenseX('');
     setPointCost('');
     setDefenseDieColor('red');
     setDefenseSurge('none');
@@ -704,6 +717,14 @@ function App() {
                 min={0}
                 title="Cancel up to X blocks on the final defense roll"
                 guideAnchor="pierce-x"
+              />
+              <NumberInputWithControls
+                id="downgrade-defense-x"
+                label="Downgrade Defense"
+                value={downgradeDefenseX}
+                onChange={setDowngradeDefenseX}
+                min={0}
+                title="Convert up to X red defense dice to white after gathering the defense pool (including Danger Sense extras). No effect if the defender rolls white. Does not affect cover. Uncanny Luck rerolls red dice first."
               />
               <div className="app__point-cost">
                 <label htmlFor="point-cost">Unit Point Cost</label>

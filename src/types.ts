@@ -72,6 +72,7 @@ export interface PoolConfig {
   sharpshooterX: string;
   pierceX: string;
   impactX: string;
+  downgradeDefenseX: string;
   pointCost: string;
   defenseDieColor: DefenseDieColor;
   defenseSurge: DefenseSurgeConversion;
