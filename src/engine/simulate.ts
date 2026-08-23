@@ -109,6 +109,24 @@ export function rollDefensePoolDetailed(
   return outcomes;
 }
 
+/** Split a same-color gathered defense pool after Downgrade Defense X. */
+export function splitDowngradedDefensePool(
+  defenseDieColor: DefenseDieColor,
+  totalDefenseDice: number,
+  downgradeDefenseX: number
+): DefensePool {
+  const total = Math.max(0, Math.floor(totalDefenseDice));
+  const normalizedDowngradeX = Math.max(0, Math.floor(downgradeDefenseX));
+  if (defenseDieColor === 'white') {
+    return { red: 0, white: total };
+  }
+  if (normalizedDowngradeX <= 0) {
+    return { red: total, white: 0 };
+  }
+  const white = Math.min(normalizedDowngradeX, total);
+  return { red: total - white, white };
+}
+
 /** Sum per-die outcomes to raw (crit, surge, hit, blank) counts. */
 export function aggregateToRawCounts(outcomes: DieOutcome[]): RawAttackCounts {
   const counts: RawAttackCounts = { crit: 0, surge: 0, hit: 0, blank: 0 };

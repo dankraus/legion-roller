@@ -26,6 +26,7 @@ import {
   getDefenseDistributionForDiceCountSim,
   simulateWounds,
   simulateWoundsFromAttackResults,
+  splitDowngradedDefensePool,
 } from '../simulate';
 
 describe('rollOneAttackDie', () => {
@@ -1961,5 +1962,46 @@ describe('Danger Sense X in wounds simulation', () => {
       woundsTwoTokens.expectedWounds,
       5
     );
+  });
+});
+
+describe('splitDowngradedDefensePool', () => {
+  it('keeps all dice white when the defender is white, for any X', () => {
+    expect(splitDowngradedDefensePool('white', 5, 0)).toEqual({
+      red: 0,
+      white: 5,
+    });
+    expect(splitDowngradedDefensePool('white', 5, 3)).toEqual({
+      red: 0,
+      white: 5,
+    });
+  });
+
+  it('keeps all dice red when X is 0', () => {
+    expect(splitDowngradedDefensePool('red', 4, 0)).toEqual({
+      red: 4,
+      white: 0,
+    });
+  });
+
+  it('converts min(X, total) red dice to white', () => {
+    expect(splitDowngradedDefensePool('red', 5, 2)).toEqual({
+      red: 3,
+      white: 2,
+    });
+  });
+
+  it('converts the whole pool when X is greater than total', () => {
+    expect(splitDowngradedDefensePool('red', 2, 4)).toEqual({
+      red: 0,
+      white: 2,
+    });
+  });
+
+  it('treats negative X as 0', () => {
+    expect(splitDowngradedDefensePool('red', 3, -2)).toEqual({
+      red: 3,
+      white: 0,
+    });
   });
 });
