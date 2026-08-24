@@ -31,6 +31,7 @@ export const DEFAULT_POOL_CONFIG: PoolConfig = {
   suppressionTokens: '',
   dangerSenseX: '',
   uncannyLuckX: '',
+  upgradeDefenseX: '',
   backup: false,
 };
 
@@ -85,7 +86,8 @@ export function computePoolResults(config: PoolConfig): PoolResults {
     toCount(config.suppressionTokens),
     toCount(config.dangerSenseX),
     toCount(config.uncannyLuckX),
-    toCount(config.downgradeDefenseX)
+    toCount(config.downgradeDefenseX),
+    toCount(config.upgradeDefenseX)
   );
 
   return { results, woundsResults };

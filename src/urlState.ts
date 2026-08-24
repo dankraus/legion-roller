@@ -18,6 +18,7 @@ export interface UrlPoolState {
   pierce: number;
   impact: number;
   downDef: number;
+  upDef: number;
   cost: string;
   dColor: DefenseColorOption;
   dSurge: DefenseSurgeOption;
@@ -60,6 +61,7 @@ export const DEFAULT_URL_STATE_POOL: UrlPoolState = {
   pierce: 0,
   impact: 0,
   downDef: 0,
+  upDef: 0,
   cost: '',
   dColor: 'red',
   dSurge: 'none',
@@ -132,6 +134,7 @@ function parsePool(params: URLSearchParams, prefix: string): UrlPoolState {
     pierce: parseNumber(get('pierce'), DEFAULT_URL_STATE_POOL.pierce),
     impact: parseNumber(get('impact'), DEFAULT_URL_STATE_POOL.impact),
     downDef: parseNumber(get('downDef'), DEFAULT_URL_STATE_POOL.downDef),
+    upDef: parseNumber(get('upDef'), DEFAULT_URL_STATE_POOL.upDef),
     cost: get('cost') ?? DEFAULT_URL_STATE_POOL.cost,
     dColor: parseEnum(
       get('dColor'),

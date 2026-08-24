@@ -90,5 +90,6 @@ export interface PoolConfig {
   suppressionTokens: string;
   dangerSenseX: string;
   uncannyLuckX: string;
+  upgradeDefenseX: string;
   backup: boolean;
 }

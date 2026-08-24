@@ -37,6 +37,7 @@ export function describeActiveModifiers(config: PoolConfig): string[] {
   labels.push(countLabel('Armor', config.armorX));
   labels.push(countLabel('Danger Sense', config.dangerSenseX));
   labels.push(countLabel('Uncanny Luck', config.uncannyLuckX));
+  labels.push(countLabel('Upgrade Defense Dice X', config.upgradeDefenseX));
   labels.push(countLabel('Dodge', config.dodgeTokens));
   labels.push(countLabel('Shield', config.shieldTokens));
   labels.push(countLabel('Def surge tokens', config.defenseSurgeTokens));

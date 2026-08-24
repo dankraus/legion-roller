@@ -92,6 +92,19 @@ describe('urlState', () => {
       const fragment = buildFragment({ ...DEFAULT_URL_STATE, downDef: 0 });
       expect(fragment).not.toContain('downDef');
     });
+
+    it('parses upDef and roundtrips in buildFragment', () => {
+      const parsed = parseFragment('#upDef=2');
+      expect(parsed.upDef).toBe(2);
+      const fragment = buildFragment({ ...DEFAULT_URL_STATE, upDef: 2 });
+      expect(fragment).toContain('upDef=2');
+      expect(parseFragment('#' + fragment).upDef).toBe(2);
+    });
+
+    it('omits upDef from the fragment when it is 0', () => {
+      const fragment = buildFragment({ ...DEFAULT_URL_STATE, upDef: 0 });
+      expect(fragment).not.toContain('upDef');
+    });
   });
 
   describe('buildFragment', () => {

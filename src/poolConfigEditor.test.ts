@@ -26,6 +26,7 @@ describe('applyConfigToEditor', () => {
       surge: 'crit',
       aimTokens: '1',
       cover: 'light',
+      upgradeDefenseX: '2',
       backup: true,
     };
     const setters = {
@@ -58,6 +59,7 @@ describe('applyConfigToEditor', () => {
       setSuppressionTokens: vi.fn(),
       setDangerSenseX: vi.fn(),
       setUncannyLuckX: vi.fn(),
+      setUpgradeDefenseX: vi.fn(),
       setBackup: vi.fn(),
     };
     applyConfigToEditor(config, setters);
@@ -71,6 +73,7 @@ describe('applyConfigToEditor', () => {
     expect(setters.setCover).toHaveBeenCalledWith('light');
     expect(setters.setCoverDieColor).toHaveBeenCalledWith('white');
     expect(setters.setBackup).toHaveBeenCalledWith(true);
+    expect(setters.setUpgradeDefenseX).toHaveBeenCalledWith('2');
   });
 });
 

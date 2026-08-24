@@ -90,6 +90,7 @@ export function formatPoolSnapshot(config: PoolConfig): PoolSnapshotSection[] {
   addCountLine(defenseLines, 'Armor', config.armorX);
   addCountLine(defenseLines, 'Danger Sense', config.dangerSenseX);
   addCountLine(defenseLines, 'Uncanny Luck', config.uncannyLuckX);
+  addCountLine(defenseLines, 'Upgrade Defense Dice X', config.upgradeDefenseX);
   addCountLine(defenseLines, 'Def surge tokens', config.defenseSurgeTokens);
   addCountLine(defenseLines, 'Suppression', config.suppressionTokens);
   addCountLine(defenseLines, 'Dodge', config.dodgeTokens);

@@ -74,6 +74,7 @@ function poolStateToConfig(pool: UrlPoolState): PoolConfig {
     suppressionTokens: numToInput(pool.suppTok),
     dangerSenseX: numToInput(pool.danger),
     uncannyLuckX: numToInput(pool.uLuck),
+    upgradeDefenseX: numToInput(pool.upDef),
     backup: pool.backup,
   };
 }
@@ -246,6 +247,13 @@ function App() {
         : String(initialFromUrl.uLuck)
       : ''
   );
+  const [upgradeDefenseX, setUpgradeDefenseX] = useState<string>(() =>
+    initialFromUrl
+      ? initialFromUrl.upDef === 0
+        ? ''
+        : String(initialFromUrl.upDef)
+      : ''
+  );
   const [backup, setBackup] = useState<boolean>(
     () => initialFromUrl?.backup ?? false
   );
@@ -292,6 +300,7 @@ function App() {
       suppressionTokens,
       dangerSenseX,
       uncannyLuckX,
+      upgradeDefenseX,
       backup,
     }),
     [
@@ -324,6 +333,7 @@ function App() {
       suppressionTokens,
       dangerSenseX,
       uncannyLuckX,
+      upgradeDefenseX,
       backup,
     ]
   );
@@ -366,6 +376,7 @@ function App() {
       suppressionTokens: debouncedInputs.suppressionTokens,
       dangerSenseX: debouncedInputs.dangerSenseX,
       uncannyLuckX: debouncedInputs.uncannyLuckX,
+      upgradeDefenseX: debouncedInputs.upgradeDefenseX,
       backup: debouncedInputs.backup,
     }),
     [debouncedInputs]
@@ -461,6 +472,7 @@ function App() {
       setSuppressionTokens,
       setDangerSenseX,
       setUncannyLuckX,
+      setUpgradeDefenseX,
       setBackup,
     }),
     []
@@ -527,6 +539,7 @@ function App() {
     setSuppressionTokens('');
     setDangerSenseX('');
     setUncannyLuckX('');
+    setUpgradeDefenseX('');
     setBackup(false);
     setPinnedConfig(null);
     setCachedPoolB(null);
@@ -835,6 +848,14 @@ function App() {
                 min={0}
                 title="While defending, reroll up to X defense dice that would not become blocks."
                 guideAnchor="uncanny-luck-x"
+              />
+              <NumberInputWithControls
+                id="upgrade-defense-dice-x"
+                label="Upgrade Defense Dice X"
+                value={upgradeDefenseX}
+                onChange={setUpgradeDefenseX}
+                min={0}
+                title="Convert up to X white defense dice to red after gathering the defense pool (including Danger Sense extras). No effect when there are no white dice. Does not affect cover. Uncanny Luck rerolls red dice first."
               />
               <h3 className="app__section-heading">Tokens</h3>
               <NumberInputWithControls

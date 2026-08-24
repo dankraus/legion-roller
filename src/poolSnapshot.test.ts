@@ -55,6 +55,14 @@ describe('formatPoolSnapshot', () => {
     ).toBe('2');
   });
 
+  it('includes Upgrade Defense Dice X in Defense when set', () => {
+    const sections = formatPoolSnapshot({
+      ...DEFAULT_POOL_CONFIG,
+      upgradeDefenseX: '2',
+    });
+    expect(lineValue(sections, 'Defense', 'Upgrade Defense Dice X')).toBe('2');
+  });
+
   it('always includes structural defense fields', () => {
     const sections = formatPoolSnapshot(DEFAULT_POOL_CONFIG);
     expect(lineValue(sections, 'Defense', 'Defense die')).toBe('Red');

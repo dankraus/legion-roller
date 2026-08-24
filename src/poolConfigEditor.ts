@@ -40,6 +40,7 @@ export type PoolEditorSetters = {
   setSuppressionTokens: (value: string) => void;
   setDangerSenseX: (value: string) => void;
   setUncannyLuckX: (value: string) => void;
+  setUpgradeDefenseX: (value: string) => void;
   setBackup: (value: boolean) => void;
 };
 
@@ -80,6 +81,7 @@ export function applyConfigToEditor(
   setters.setSuppressionTokens(config.suppressionTokens);
   setters.setDangerSenseX(config.dangerSenseX);
   setters.setUncannyLuckX(config.uncannyLuckX);
+  setters.setUpgradeDefenseX(config.upgradeDefenseX);
   setters.setBackup(config.backup);
 }
 
@@ -104,6 +106,7 @@ export function configToUrlPoolState(config: PoolConfig): UrlPoolState {
     pierce: toCount(config.pierceX),
     impact: toCount(config.impactX),
     downDef: toCount(config.downgradeDefenseX),
+    upDef: toCount(config.upgradeDefenseX),
     cost: config.pointCost,
     dColor: config.defenseDieColor,
     dSurge: config.defenseSurge,

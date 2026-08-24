@@ -15,6 +15,7 @@ describe('describeActiveModifiers', () => {
       criticalX: '1',
       pierceX: '1',
       downgradeDefenseX: '2',
+      upgradeDefenseX: '2',
       cover: 'light',
       outmaneuver: true,
     });
@@ -23,6 +24,7 @@ describe('describeActiveModifiers', () => {
     expect(labels).toContain('Critical 1');
     expect(labels).toContain('Pierce 1');
     expect(labels).toContain('Downgrade Defense Dice X 2');
+    expect(labels).toContain('Upgrade Defense Dice X 2');
     expect(labels).toContain('Cover Light');
     expect(labels).toContain('Outmaneuver');
   });

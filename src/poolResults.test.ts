@@ -12,6 +12,7 @@ describe('computePoolResults', () => {
       criticalX: '1',
       pierceX: '1',
       downgradeDefenseX: '2',
+      upgradeDefenseX: '2',
       cover: 'light' as const,
       pointCost: '47',
     };
@@ -48,6 +49,7 @@ describe('computePoolResults', () => {
       0,
       0,
       0,
+      2,
       2
     );
 
