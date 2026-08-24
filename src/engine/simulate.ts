@@ -753,6 +753,7 @@ export function simulateWounds(
   dangerSenseX: number = 0,
   uncannyLuckX: number = 0,
   downgradeDefenseX: number = 0,
+  upgradeDefenseX: number = 0,
   runs: number,
   rng: () => number
 ): WoundsResults {
@@ -767,6 +768,7 @@ export function simulateWounds(
     0,
     Math.floor(downgradeDefenseX)
   );
+  const normalizedUpgradeDefenseX = Math.max(0, Math.floor(upgradeDefenseX));
   const roundCapacities = getRerollRounds(aimTokens, observeTokens, preciseX);
 
   const woundsHistogram: Record<number, number> = {};
@@ -830,7 +832,11 @@ export function simulateWounds(
       totalDefenseDice,
       normalizedDowngradeDefenseX
     );
-    const defenseOutcomes = rollDefensePoolDetailed(splitPool, rng);
+    const upgradedPool = applyUpgradeDefenseToPool(
+      splitPool,
+      normalizedUpgradeDefenseX
+    );
+    const defenseOutcomes = rollDefensePoolDetailed(upgradedPool, rng);
     applyUncannyLuckRerollsToOutcomes(
       defenseOutcomes,
       normalizedUncannyLuckX,
@@ -899,6 +905,7 @@ export function simulateWoundsFromAttackResults(
   dangerSenseX: number = 0,
   uncannyLuckX: number = 0,
   downgradeDefenseX: number = 0,
+  upgradeDefenseX: number = 0,
   runs: number,
   rng: () => number
 ): WoundsResults {
@@ -913,6 +920,7 @@ export function simulateWoundsFromAttackResults(
     0,
     Math.floor(downgradeDefenseX)
   );
+  const normalizedUpgradeDefenseX = Math.max(0, Math.floor(upgradeDefenseX));
   const normalizedSuppressionTokens = Math.max(
     0,
     Math.floor(suppressionTokens)
@@ -984,7 +992,11 @@ export function simulateWoundsFromAttackResults(
       totalDefenseDice,
       normalizedDowngradeDefenseX
     );
-    const defenseOutcomes = rollDefensePoolDetailed(splitPool, rng);
+    const upgradedPool = applyUpgradeDefenseToPool(
+      splitPool,
+      normalizedUpgradeDefenseX
+    );
+    const defenseOutcomes = rollDefensePoolDetailed(upgradedPool, rng);
     applyUncannyLuckRerollsToOutcomes(
       defenseOutcomes,
       normalizedUncannyLuckX,

@@ -544,6 +544,7 @@ describe('simulateWounds', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       20_000,
       rng
     );
@@ -586,6 +587,7 @@ describe('shield tokens in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -635,6 +637,7 @@ describe('defense surge tokens in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngZero
     );
@@ -661,6 +664,7 @@ describe('defense surge tokens in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOne
     );
@@ -712,6 +716,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngNone
     );
@@ -738,6 +743,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngLight
     );
@@ -790,6 +796,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOff
     );
@@ -816,6 +823,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOn
     );
@@ -864,6 +872,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngNoSharp
     );
@@ -890,6 +899,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngSharp
     );
@@ -942,6 +952,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOff
     );
@@ -968,6 +979,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOn
     );
@@ -1001,6 +1013,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       10_000,
       rng
     );
@@ -1027,6 +1040,7 @@ describe('cover in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       10_000,
       rng
     );
@@ -1071,6 +1085,7 @@ describe('cover die color in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1098,12 +1113,11 @@ describe('cover die color in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngRed
     );
-    expect(woundsRed.expectedWounds).toBeLessThan(
-      woundsWhite.expectedWounds
-    );
+    expect(woundsRed.expectedWounds).toBeLessThan(woundsWhite.expectedWounds);
   });
 });
 
@@ -1153,6 +1167,7 @@ describe('backup in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOff
     );
@@ -1179,6 +1194,7 @@ describe('backup in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngOn
     );
@@ -1228,6 +1244,7 @@ describe('Pierce X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1255,6 +1272,7 @@ describe('Pierce X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng2
     );
@@ -1306,6 +1324,7 @@ describe('Pierce X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngZero
     );
@@ -1332,6 +1351,7 @@ describe('Pierce X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngThree
     );
@@ -1389,6 +1409,7 @@ describe('Armor X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngArmor0
     );
@@ -1415,6 +1436,7 @@ describe('Armor X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngArmor3
     );
@@ -1474,6 +1496,7 @@ describe('Impact X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngImpact0
     );
@@ -1500,6 +1523,7 @@ describe('Impact X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngImpact2
     );
@@ -1551,6 +1575,7 @@ describe('Impact X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngArmor2
     );
@@ -1577,6 +1602,7 @@ describe('Impact X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngArmor3
     );
@@ -1643,6 +1669,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngNoImpervious
     );
@@ -1669,6 +1696,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngImpervious
     );
@@ -1711,6 +1739,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1737,6 +1766,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1780,6 +1810,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngNoImpervious
     );
@@ -1806,6 +1837,7 @@ describe('Impervious in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngImpervious
     );
@@ -1850,6 +1882,7 @@ describe('Uncanny Luck X in wounds simulation', () => {
       0,
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       createSeededRng(42)
     );
@@ -1876,6 +1909,7 @@ describe('Uncanny Luck X in wounds simulation', () => {
       0,
       2, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       createSeededRng(42)
     );
@@ -1920,6 +1954,7 @@ describe('Danger Sense X in wounds simulation', () => {
       0, // dangerSenseX
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1946,6 +1981,7 @@ describe('Danger Sense X in wounds simulation', () => {
       2, // dangerSenseX
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rng
     );
@@ -1990,6 +2026,7 @@ describe('Danger Sense X in wounds simulation', () => {
       2, // dangerSenseX
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngTwoTokens
     );
@@ -2016,6 +2053,7 @@ describe('Danger Sense X in wounds simulation', () => {
       2, // dangerSenseX
       0, // uncannyLuckX
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       rngThreeTokens
     );
@@ -2102,6 +2140,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       0, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       createSeededRng(42)
     );
@@ -2128,6 +2167,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       2, // downgradeDefenseX
+      0, // upgradeDefenseX
       runs,
       createSeededRng(42)
     );
@@ -2159,6 +2199,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       0,
+      0, // upgradeDefenseX
       runs,
       createSeededRng(7)
     );
@@ -2185,6 +2226,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       2,
+      0, // upgradeDefenseX
       runs,
       createSeededRng(7)
     );
@@ -2218,6 +2260,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       0,
+      0, // upgradeDefenseX
       runs,
       createSeededRng(11)
     );
@@ -2244,6 +2287,7 @@ describe('Downgrade Defense X in wounds simulation', () => {
       0,
       0,
       2,
+      0, // upgradeDefenseX
       runs,
       createSeededRng(11)
     );
@@ -2304,5 +2348,258 @@ describe('applyUpgradeDefenseToPool', () => {
       red: 4,
       white: 1,
     });
+  });
+});
+
+describe('Upgrade Defense X in wounds simulation', () => {
+  const attackResults: AttackResults = {
+    expectedHits: 3,
+    expectedCrits: 1,
+    expectedTotal: 4,
+    distribution: [],
+    distributionByHitsCrits: [{ hits: 3, crits: 1, probability: 1 }],
+    cumulative: [],
+  };
+  const runs = 5000;
+
+  it('white defender: Upgrade 2 yields lower or equal expected wounds than 0', () => {
+    const woundsNone = simulateWoundsFromAttackResults(
+      attackResults,
+      'white',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0, // downgradeDefenseX
+      0, // upgradeDefenseX
+      runs,
+      createSeededRng(42)
+    );
+    const woundsUpgrade2 = simulateWoundsFromAttackResults(
+      attackResults,
+      'white',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0, // downgradeDefenseX
+      2, // upgradeDefenseX
+      runs,
+      createSeededRng(42)
+    );
+    expect(woundsUpgrade2.expectedWounds).toBeLessThanOrEqual(
+      woundsNone.expectedWounds
+    );
+  });
+
+  it('red defender: Upgrade 2 matches Upgrade 0 when Downgrade is 0', () => {
+    const woundsNone = simulateWoundsFromAttackResults(
+      attackResults,
+      'red',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0,
+      0,
+      runs,
+      createSeededRng(7)
+    );
+    const woundsUpgrade2 = simulateWoundsFromAttackResults(
+      attackResults,
+      'red',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0,
+      2,
+      runs,
+      createSeededRng(7)
+    );
+    expect(woundsUpgrade2.expectedWounds).toBeCloseTo(
+      woundsNone.expectedWounds,
+      10
+    );
+  });
+
+  it('white defender with cover: Upgrade 2 vs 0 does not change cover cancellations (wounds still drop or stay)', () => {
+    const woundsNone = simulateWoundsFromAttackResults(
+      attackResults,
+      'white',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'light',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0,
+      0,
+      runs,
+      createSeededRng(11)
+    );
+    const woundsUpgrade2 = simulateWoundsFromAttackResults(
+      attackResults,
+      'white',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'light',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      0,
+      2,
+      runs,
+      createSeededRng(11)
+    );
+    expect(woundsUpgrade2.expectedWounds).toBeLessThanOrEqual(
+      woundsNone.expectedWounds
+    );
+  });
+
+  it('red defender: Downgrade 2 then Upgrade 1 yields lower or equal wounds than Downgrade 2 alone', () => {
+    const woundsDowngradeOnly = simulateWoundsFromAttackResults(
+      attackResults,
+      'red',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      2, // downgradeDefenseX
+      0, // upgradeDefenseX
+      runs,
+      createSeededRng(13)
+    );
+    const woundsBoth = simulateWoundsFromAttackResults(
+      attackResults,
+      'red',
+      'none',
+      0,
+      0,
+      false,
+      0,
+      'none',
+      false,
+      false,
+      0,
+      'white',
+      0,
+      false,
+      0,
+      0,
+      0,
+      false,
+      0,
+      0,
+      0,
+      2, // downgradeDefenseX
+      1, // upgradeDefenseX
+      runs,
+      createSeededRng(13)
+    );
+    expect(woundsBoth.expectedWounds).toBeLessThanOrEqual(
+      woundsDowngradeOnly.expectedWounds
+    );
   });
 });
