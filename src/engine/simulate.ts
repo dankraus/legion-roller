@@ -127,6 +127,21 @@ export function splitDowngradedDefensePool(
   return { red: total - white, white };
 }
 
+/** Convert up to X white defense dice to red after gathering (and after downgrade). */
+export function applyUpgradeDefenseToPool(
+  pool: DefensePool,
+  upgradeDefenseX: number
+): DefensePool {
+  const normalizedUpgradeX = Math.max(0, Math.floor(upgradeDefenseX));
+  const white = Math.max(0, Math.floor(pool.white));
+  const red = Math.max(0, Math.floor(pool.red));
+  if (normalizedUpgradeX <= 0 || white <= 0) {
+    return { red, white };
+  }
+  const converted = Math.min(normalizedUpgradeX, white);
+  return { red: red + converted, white: white - converted };
+}
+
 /** Sum per-die outcomes to raw (crit, surge, hit, blank) counts. */
 export function aggregateToRawCounts(outcomes: DieOutcome[]): RawAttackCounts {
   const counts: RawAttackCounts = { crit: 0, surge: 0, hit: 0, blank: 0 };

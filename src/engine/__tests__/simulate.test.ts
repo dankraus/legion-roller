@@ -29,6 +29,7 @@ import {
   simulateWounds,
   simulateWoundsFromAttackResults,
   splitDowngradedDefensePool,
+  applyUpgradeDefenseToPool,
 } from '../simulate';
 
 describe('rollOneAttackDie', () => {
@@ -2250,5 +2251,58 @@ describe('Downgrade Defense X in wounds simulation', () => {
       woundsNone.expectedWounds,
       10
     );
+  });
+});
+
+describe('applyUpgradeDefenseToPool', () => {
+  it('leaves the pool unchanged when X is 0', () => {
+    expect(applyUpgradeDefenseToPool({ red: 0, white: 5 }, 0)).toEqual({
+      red: 0,
+      white: 5,
+    });
+  });
+
+  it('converts min(X, white) white dice to red', () => {
+    expect(applyUpgradeDefenseToPool({ red: 0, white: 5 }, 2)).toEqual({
+      red: 2,
+      white: 3,
+    });
+  });
+
+  it('converts all white dice when X is greater than white', () => {
+    expect(applyUpgradeDefenseToPool({ red: 0, white: 2 }, 4)).toEqual({
+      red: 2,
+      white: 0,
+    });
+  });
+
+  it('leaves a red-only pool unchanged for any X', () => {
+    expect(applyUpgradeDefenseToPool({ red: 4, white: 0 }, 3)).toEqual({
+      red: 4,
+      white: 0,
+    });
+  });
+
+  it('treats negative X as 0', () => {
+    expect(applyUpgradeDefenseToPool({ red: 1, white: 2 }, -2)).toEqual({
+      red: 1,
+      white: 2,
+    });
+  });
+
+  it('treats non-integer X by flooring', () => {
+    expect(applyUpgradeDefenseToPool({ red: 0, white: 3 }, 1.9)).toEqual({
+      red: 1,
+      white: 2,
+    });
+  });
+
+  it('applies after splitDowngradedDefensePool: red 5, downgrade 2, upgrade 1', () => {
+    const afterDowngrade = splitDowngradedDefensePool('red', 5, 2);
+    expect(afterDowngrade).toEqual({ red: 3, white: 2 });
+    expect(applyUpgradeDefenseToPool(afterDowngrade, 1)).toEqual({
+      red: 4,
+      white: 1,
+    });
   });
 });
