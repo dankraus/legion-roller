@@ -241,7 +241,7 @@ describe('Aim and Observe tokens', () => {
     expect(zeroBoth.expectedCrits).toBeCloseTo(noTokens.expectedCrits);
   });
 
-  it('1 Observe token with 1 white die (surge none): reroll 1 blank adds expected hit/crit', () => {
+  it('1 Observe token with 1 white die (surge none): leftover surge or blank is rerolled', () => {
     const pool: AttackPool = { red: 0, black: 0, white: 1 };
     const noToken = calculateAttackPool(pool, 'none');
     const oneObserve = calculateAttackPool(pool, 'none', undefined, 0, 0, 1);
@@ -249,8 +249,8 @@ describe('Aim and Observe tokens', () => {
     expect(oneObserve.expectedCrits).toBeGreaterThan(noToken.expectedCrits);
     expect(noToken.expectedHits).toBeCloseTo(1 / 8);
     expect(noToken.expectedCrits).toBeCloseTo(1 / 8);
-    expect(oneObserve.expectedHits).toBeCloseTo(1 / 8 + (5 / 8) * (1 / 8), 1);
-    expect(oneObserve.expectedCrits).toBeCloseTo(1 / 8 + (5 / 8) * (1 / 8), 1);
+    expect(oneObserve.expectedHits).toBeCloseTo(1 / 8 + (6 / 8) * (1 / 8), 1);
+    expect(oneObserve.expectedCrits).toBeCloseTo(1 / 8 + (6 / 8) * (1 / 8), 1);
   });
 
   it('2 Observe with 1 white die: two rounds so can reroll that blank again if still blank', () => {
@@ -292,6 +292,24 @@ describe('Aim and Observe tokens', () => {
     const noTokenCrit = calculateAttackPool(pool, 'crit');
     const oneAimCrit = calculateAttackPool(pool, 'crit', undefined, 0, 1, 0);
     expect(oneAimCrit.expectedTotal).toBeGreaterThan(noTokenCrit.expectedTotal);
+  });
+
+  it('2 red, surge none, many Aim/Observe: leftover surges are rerolled toward 2 successes', () => {
+    const pool: AttackPool = { red: 2, black: 0, white: 0 };
+    const result = calculateAttackPool(pool, 'none', undefined, 0, 20, 20);
+    expect(result.expectedTotal).toBeCloseTo(2, 1);
+    const probabilityOfTwo =
+      result.distribution.find((entry) => entry.total === 2)?.probability ?? 0;
+    expect(probabilityOfTwo).toBeCloseTo(1, 1);
+  });
+
+  it('2 red, surge hit, many Aim/Observe: every die becomes a success', () => {
+    const pool: AttackPool = { red: 2, black: 0, white: 0 };
+    const result = calculateAttackPool(pool, 'hit', undefined, 0, 20, 20);
+    expect(result.expectedTotal).toBeCloseTo(2, 1);
+    const probabilityOfTwo =
+      result.distribution.find((entry) => entry.total === 2)?.probability ?? 0;
+    expect(probabilityOfTwo).toBeCloseTo(1, 1);
   });
 });
 
@@ -365,21 +383,15 @@ describe('Precise keyword', () => {
 });
 
 describe('Ram X keyword', () => {
-  it('Ram 1 with 1 white die (surge none, no rerolls): converts blank or hit to crit', () => {
+  it('Ram 1 with 1 white die (surge none, no rerolls): converts blank, leftover surge, or hit to crit', () => {
     const pool: AttackPool = { red: 0, black: 0, white: 1 };
     const noRam = calculateAttackPool(pool, 'none');
-    // white die: 1 crit, 1 surge, 1 hit, 5 blank. Surge none → surge wasted.
-    // Per outcome with Ram 1:
-    //   crit(1/8): no blanks/hits to convert → crits=1
-    //   surge(1/8): no blanks/hits → crits=0
-    //   hit(1/8): 0 blanks, 1 hit → hit→crit → crits=1, hits=0
-    //   blank(5/8): 1 blank→crit → crits=1
-    // expectedCrits = (1+0+1+5)/8 = 7/8, expectedHits = 0
     const ram1 = calculateAttackPool(pool, 'none', undefined, 0, 0, 0, 0, 1);
     expect(ram1.expectedCrits).toBeGreaterThan(noRam.expectedCrits);
     expect(ram1.expectedTotal).toBeGreaterThan(noRam.expectedTotal);
-    expect(ram1.expectedCrits).toBeCloseTo(7 / 8);
+    expect(ram1.expectedCrits).toBeCloseTo(1);
     expect(ram1.expectedHits).toBeCloseTo(0);
+    expect(ram1.expectedTotal).toBeCloseTo(1);
   });
 
   it('Ram 0 or undefined: same as no Ram', () => {
@@ -410,19 +422,19 @@ describe('Ram X keyword', () => {
     expect(negRam.expectedHits).toBeCloseTo(noRam.expectedHits);
   });
 
-  it('Ram 2 with 1 white die (surge none, no rerolls): converts blank then hit to crit', () => {
+  it('Ram 2 with 1 white die (surge none, no rerolls): converts blank, leftover surge, or hit to crit', () => {
     const pool: AttackPool = { red: 0, black: 0, white: 1 };
-    // Per outcome (single die):
-    //   crit: 0 blanks, 0 hits → ram does nothing. crits=1
-    //   surge: 0 blanks, 0 hits (surge=none → wasted) → ram does nothing. crits=0
-    //   hit: 0 blanks, 1 hit → ram converts 1 hit to crit. crits=1, hits=0
-    //   blank: 1 blank → ram converts 1 blank to crit, ram left=1, 0 hits left → crits=1, hits=0
-    // expectedCrits = (1 + 0 + 1 + 5*1)/8 = 7/8
-    // expectedHits = 0
     const ram2 = calculateAttackPool(pool, 'none', undefined, 0, 0, 0, 0, 2);
-    expect(ram2.expectedCrits).toBeCloseTo(7 / 8);
+    expect(ram2.expectedCrits).toBeCloseTo(1);
     expect(ram2.expectedHits).toBeCloseTo(0);
-    expect(ram2.expectedTotal).toBeCloseTo(7 / 8);
+    expect(ram2.expectedTotal).toBeCloseTo(1);
+  });
+
+  it('2 white, surge hit, Ram 1, 1 Aim: rerolls blanks Ram would have converted', () => {
+    const pool: AttackPool = { red: 0, black: 0, white: 2 };
+    const result = calculateAttackPool(pool, 'hit', undefined, 0, 1, 0, 0, 1);
+    expect(result.expectedTotal).toBeGreaterThan(1.8);
+    expect(result.expectedTotal).toBeCloseTo(1.85, 1);
   });
 
   it('Ram 1 + 1 Aim with white dice: Ram applies after rerolls, converts a remaining blank', () => {

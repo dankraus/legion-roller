@@ -670,7 +670,7 @@ function App() {
                 label="Aim"
                 value={aimTokens}
                 onChange={setAimTokens}
-                title="Each Aim token: reroll up to 2 blanks"
+                title="Each Aim token: reroll up to 2 dice that would not become hits or crits (after surge conversion, surge tokens, and Critical)."
                 guideAnchor="aim"
               />
               <NumberInputWithControls
@@ -678,7 +678,7 @@ function App() {
                 label="Observe"
                 value={observeTokens}
                 onChange={setObserveTokens}
-                title="Each Observe token: reroll 1 blank."
+                title="Each Observe token: reroll 1 die that would not become a hit or crit (after surge conversion, surge tokens, and Critical)."
                 guideAnchor="observe-x"
               />
               <h3 className="app__section-heading">Keywords</h3>
@@ -703,7 +703,7 @@ function App() {
                 label="Ram"
                 value={ramX}
                 onChange={setRamX}
-                title="Convert up to X dice to crits after rerolls (blanks first, then hits)"
+                title="After rerolls, convert up to X leftover blanks or surges to crits, then leftover Ram converts hits. Does not spend on surges that Critical, surge conversion, or surge tokens will convert."
                 guideAnchor="ram-x"
               />
               <NumberInputWithControls

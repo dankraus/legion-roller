@@ -10,7 +10,12 @@ import {
   rollDefensePoolDetailed,
   type DefenseFace,
   type DefenseDieOutcome,
+  type DieOutcome,
+  type AttackRerollContext,
   resolveStep,
+  leftoverSurgesAfterConversion,
+  getRerollableAttackIndices,
+  applyRerollsByRounds,
   applyRerolls,
   applyRam,
   simulateAttackPool,
@@ -137,6 +142,144 @@ describe('resolveStep', () => {
   });
 });
 
+describe('leftoverSurgesAfterConversion', () => {
+  it('surge hit: all surges convert, leftover is 0', () => {
+    expect(leftoverSurgesAfterConversion(4, 0, 'hit', 0)).toBe(0);
+    expect(leftoverSurgesAfterConversion(4, 2, 'hit', 9)).toBe(0);
+  });
+
+  it('surge crit: all surges convert, leftover is 0', () => {
+    expect(leftoverSurgesAfterConversion(3, 0, 'crit', 0)).toBe(0);
+  });
+
+  it('surge none: leftover is surges minus Critical X minus tokens', () => {
+    expect(leftoverSurgesAfterConversion(5, 1, 'none', 2)).toBe(2);
+    expect(leftoverSurgesAfterConversion(2, 5, 'none', 0)).toBe(0);
+    expect(leftoverSurgesAfterConversion(2, 0, 'none', 2)).toBe(0);
+  });
+
+  it('treats missing Critical X and tokens as 0', () => {
+    expect(leftoverSurgesAfterConversion(3, undefined, 'none', undefined)).toBe(
+      3
+    );
+  });
+});
+
+describe('getRerollableAttackIndices', () => {
+  const noConverters: AttackRerollContext = {
+    surge: 'none',
+    criticalX: 0,
+    surgeTokens: 0,
+  };
+
+  it('never lists hits or crits', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'red', face: 'crit' },
+      { color: 'red', face: 'hit' },
+      { color: 'red', face: 'blank' },
+    ];
+    expect(getRerollableAttackIndices(outcomes, noConverters)).toEqual([2]);
+  });
+
+  it('surge hit: only blanks are rerollable', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'blank' },
+    ];
+    expect(
+      getRerollableAttackIndices(outcomes, {
+        ...noConverters,
+        surge: 'hit',
+      })
+    ).toEqual([1]);
+  });
+
+  it('surge none with no tokens: blanks and all surges are rerollable', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'blank' },
+    ];
+    expect(getRerollableAttackIndices(outcomes, noConverters)).toEqual([1, 0]);
+  });
+
+  it('keeps Critical X and surge-token surges; leftover surges are rerollable', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'blank' },
+    ];
+    expect(
+      getRerollableAttackIndices(outcomes, {
+        surge: 'none',
+        criticalX: 1,
+        surgeTokens: 1,
+      })
+    ).toEqual([3, 2]);
+  });
+
+  it('leftover surge count from helper matches leftover-surge indices plus blanks', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'surge' },
+      { color: 'white', face: 'blank' },
+    ];
+    const context: AttackRerollContext = {
+      surge: 'none',
+      criticalX: 1,
+      surgeTokens: 1,
+    };
+    const leftoverSurgeCount = leftoverSurgesAfterConversion(
+      3,
+      context.criticalX,
+      context.surge,
+      context.surgeTokens
+    );
+    expect(leftoverSurgeCount).toBe(1);
+    const rerollableIndices = getRerollableAttackIndices(outcomes, context);
+    const leftoverSurgeIndices = rerollableIndices.filter(
+      (index) => outcomes[index]?.face === 'surge'
+    );
+    const blankIndices = rerollableIndices.filter(
+      (index) => outcomes[index]?.face === 'blank'
+    );
+    expect(leftoverSurgeIndices).toHaveLength(leftoverSurgeCount);
+    expect(blankIndices).toHaveLength(1);
+    expect(rerollableIndices).toEqual([3, 2]);
+  });
+
+  it('Ram does not reserve leftover misses so they are rerolled', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'blank' },
+      { color: 'white', face: 'blank' },
+    ];
+    expect(getRerollableAttackIndices(outcomes, noConverters)).toEqual([0, 1]);
+  });
+
+  it('rerolls red misses before white misses', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'white', face: 'blank' },
+      { color: 'red', face: 'blank' },
+    ];
+    expect(getRerollableAttackIndices(outcomes, noConverters)).toEqual([1, 0]);
+  });
+
+  it('keeps a white surge for conversion so a red leftover surge can be rerolled', () => {
+    const outcomes: DieOutcome[] = [
+      { color: 'red', face: 'surge' },
+      { color: 'white', face: 'surge' },
+    ];
+    expect(
+      getRerollableAttackIndices(outcomes, {
+        surge: 'none',
+        criticalX: 1,
+        surgeTokens: 0,
+      })
+    ).toEqual([0]);
+  });
+});
+
 describe('applyRerolls', () => {
   it('zero reroll rounds (no Aim or Observe) leaves hits and crits unchanged', () => {
     const rng = createSeededRng(1);
@@ -182,6 +325,30 @@ describe('applyRam', () => {
     const result = applyRam(1, 0, 1, 2);
     expect(result.hits).toBe(0);
     expect(result.crits).toBe(2);
+  });
+
+  it('Ram 1 with 0 blanks and 1 leftover surge converts that surge to a crit', () => {
+    const result = applyRam(0, 0, 0, 1, 1);
+    expect(result.hits).toBe(0);
+    expect(result.crits).toBe(1);
+  });
+
+  it('Ram spends blanks before leftover surges, then leftover Ram converts hits', () => {
+    const result = applyRam(2, 0, 1, 3, 1);
+    expect(result.hits).toBe(1);
+    expect(result.crits).toBe(3);
+  });
+
+  it('Ram 1 with leftoverSurges 0 does not invent a surge conversion', () => {
+    const result = applyRam(0, 0, 0, 1, 0);
+    expect(result.hits).toBe(0);
+    expect(result.crits).toBe(0);
+  });
+
+  it('Ram 1 with leftoverSurges below 0 does not invent a surge conversion', () => {
+    const result = applyRam(0, 0, 0, 1, -2);
+    expect(result.hits).toBe(0);
+    expect(result.crits).toBe(0);
   });
 });
 
@@ -2601,5 +2768,37 @@ describe('Upgrade Defense X in wounds simulation', () => {
     expect(woundsBoth.expectedWounds).toBeLessThanOrEqual(
       woundsDowngradeOnly.expectedWounds
     );
+  });
+});
+
+describe('applyRerollsByRounds', () => {
+  it('rerolls an unconverted surge when surge is none', () => {
+    const outcomes: DieOutcome[] = [{ color: 'white', face: 'surge' }];
+    applyRerollsByRounds(outcomes, [1], () => 0, {
+      surge: 'none',
+      criticalX: 0,
+      surgeTokens: 0,
+    });
+    expect(outcomes[0]?.face).toBe('crit');
+  });
+
+  it('does not reroll a surge when surge converts to hit', () => {
+    const outcomes: DieOutcome[] = [{ color: 'white', face: 'surge' }];
+    applyRerollsByRounds(outcomes, [1], () => 0, {
+      surge: 'hit',
+      criticalX: 0,
+      surgeTokens: 0,
+    });
+    expect(outcomes[0]?.face).toBe('surge');
+  });
+
+  it('rerolls a miss even when Ram would convert it', () => {
+    const outcomes: DieOutcome[] = [{ color: 'white', face: 'blank' }];
+    applyRerollsByRounds(outcomes, [1], () => 0, {
+      surge: 'none',
+      criticalX: 0,
+      surgeTokens: 0,
+    });
+    expect(outcomes[0]?.face).toBe('crit');
   });
 });
